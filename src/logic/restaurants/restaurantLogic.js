@@ -1,5 +1,19 @@
+const { mongoTest, searchRestaurant } = require('../../clients/mongoClient');
+
 const searchRestaurants = async (req) => {
-    return Promise.resolve('bordel');
+    const { query } = req.query;
+
+    const restaurants = await searchRestaurant(query);
+    console.log(restaurants, 'rest logic'); // the server does not wait for the function 
+
+    return restaurants;
 };
 
-module.exports = { searchRestaurants };
+const testFirstMongoInsert = async () => {
+    return mongoTest();
+};
+
+module.exports = {
+    searchRestaurants,
+    testFirstMongoInsert
+};

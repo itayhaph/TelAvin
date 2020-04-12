@@ -50,23 +50,21 @@ const insertToDbTest = async (value, collection) => {
     }
 }
 
-const searchDinerInDb = async (query) => {
+const getDinerFromDb = async (dinerName) => {
     let connection;
 
     try {
-        const regexQuery = new RegExp(query);
-
         connection = await MongoClient.connect(url);
         const dbo = connection.db('local');
 
         const diner = await dbo.collection('diners')
-            .findOne({ 'type': regexQuery }).toArray();
+            .findOne({ 'name': dinerName });
 
         return diner;
     }
 
     catch (err) {
-        return err;
+        return Promise.reject(err);
     }
 
     finally {
@@ -79,6 +77,6 @@ const searchDinerInDb = async (query) => {
 
 module.exports = {
     searchRestaurantsInDb,
-    searchDinerInDb,
+    getDinerFromDb,
     insertToDbTest
 };

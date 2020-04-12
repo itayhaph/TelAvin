@@ -1,4 +1,4 @@
-const { insertToDbTest } = require('../../clients/mongoClient');
+const { insertToDbTest, getDinerFromDb } = require('../../clients/mongoClient');
 
 const insertDiner = async () => {
     const diner = {
@@ -16,6 +16,15 @@ const insertDiner = async () => {
     await insertToDbTest(diner, 'diners');
 };
 
+const getDiner = async (req) => {
+    const { dinerName } = req.params;
+
+    const diner = await getDinerFromDb(dinerName);
+
+    return diner;
+};
+
 module.exports = {
-    insertDiner
+    insertDiner,
+    getDiner
 };

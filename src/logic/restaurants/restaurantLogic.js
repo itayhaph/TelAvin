@@ -1,19 +1,27 @@
-const { mongoTest, searchRestaurant } = require('../../clients/mongoClient');
+const { searchRestaurantsInDb } = require('../../clients/mongoClient');
 
 const searchRestaurants = async (req) => {
     const { query } = req.query;
 
-    const restaurants = await searchRestaurant(query);
-    console.log(restaurants, 'rest logic'); // the server does not wait for the function 
+    const searchedRestaurants = await searchRestaurantsInDb(query);
+
+    const restaurants = searchedRestaurants.map((restaurant) => ({
+        name: restaurant.name,
+        type: restaurant.type
+    }));
 
     return restaurants;
 };
 
-const testFirstMongoInsert = async () => {
-    return mongoTest();
+const getRestaurants = async (req) => {
+    const { query } = req.query;
+
+    const restaurants = await searchRestaurantsInDb(query);
+
+    return restaurants;
 };
 
 module.exports = {
     searchRestaurants,
-    testFirstMongoInsert
+    getRestaurants
 };

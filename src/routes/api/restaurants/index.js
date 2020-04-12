@@ -1,17 +1,18 @@
 const express = require('express');
-const { searchRestaurants, testFirstMongoInsert } = require('../../../logic/restaurants/restaurantLogic');
+const { searchRestaurants, getRestaurants } = require('../../../logic/restaurants/restaurantLogic');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    const restaurants = searchRestaurants(req);
+router.get('/', async (req, res) => {
+    const restaurants = await getRestaurants(req);
 
-    console.log(restaurants, 'index');
     res.send(restaurants);
 });
 
-router.get('/mongoTest', async (req, res) => {
-    res.send(await testFirstMongoInsert());
+router.get('/search', async (req, res) => {
+    const restaurants = await searchRestaurants(req);
+
+    res.send(restaurants);
 });
 
 module.exports = router;

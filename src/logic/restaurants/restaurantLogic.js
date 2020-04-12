@@ -1,4 +1,4 @@
-const { searchRestaurantsInDb } = require('../../clients/mongoClient');
+const { searchRestaurantsInDb, getRandomRestaurantFromDb } = require('../../clients/mongoClient');
 
 const searchRestaurants = async (req) => {
     const { query } = req.query;
@@ -21,7 +21,14 @@ const getRestaurants = async (req) => {
     return restaurants;
 };
 
+const getRandomRestaurant = async () => {
+    const restaurant = await getRandomRestaurantFromDb();
+
+    return restaurant;
+};
+
 module.exports = {
     searchRestaurants,
-    getRestaurants
+    getRestaurants,
+    getRandomRestaurant
 };

@@ -75,8 +75,34 @@ const getDinerFromDb = async (dinerName) => {
     }
 };
 
+const getRandomRestaurantFromDb = async () => {
+    let connection;
+
+    try {
+        connection = await MongoClient.connect(url);
+        const dbo = connection.db('local');
+
+        const restaurant = await dbo.collection('restaurants')
+            .aggregate([{ $sample: { size: 1 } }]).toArray();
+
+        return restaurant;
+    }
+
+    catch (err) {
+        return Promise.resolve(err);
+    }
+
+    finally {
+        if (connection) {
+            connection.close();
+            console.log('MONGO CONNECTION CLOSED');
+        }
+    }
+};
+
 module.exports = {
     searchRestaurantsInDb,
+    getRandomRestaurantFromDb,
     getDinerFromDb,
     insertToDbTest
 };

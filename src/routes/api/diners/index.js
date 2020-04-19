@@ -1,5 +1,5 @@
 const express = require('express');
-const { insertDiner, getDiner, addReview } = require('../../../logic/diners/dinersLogic');
+const { insertDiner, getDiner, addReview, addFavorite } = require('../../../logic/diners/dinersLogic');
 
 const router = express.Router();
 
@@ -14,9 +14,15 @@ router.get('/getDiner/:dinerName', async (req, res) => {
     res.send(diner);
 });
 
+router.get('/addFavorite/:dinerName/:restaurantId', async (req, res) => {
+    const isSuccess = await addFavorite(req);
+
+    res.send(isSuccess);
+});
+
 router.post('/addReview/:dinerName', async (req, res) => {
     const isSuccess = await addReview(req);
-    res.send(isSuccess);    
+    res.send(isSuccess);
 });
 
 module.exports = router;

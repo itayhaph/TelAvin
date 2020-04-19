@@ -1,14 +1,13 @@
 const { MongoClient } = require('mongodb');
-const url = "mongodb://localhost:27017/";
-
+const { mongoUrl, mongoDb } = require('../configuration');
 const searchRestaurantsInDb = async (query) => {
     let connection;
 
     try {
         const regexQuery = new RegExp(query);
 
-        connection = await MongoClient.connect(url);
-        const dbo = connection.db('local');
+        connection = await MongoClient.connect(mongoUrl);
+        const dbo = connection.db(mongoDb);
 
         const restaurants = await dbo.collection('restaurants')
             .find({ $or: [{ 'name': regexQuery }, { 'type': regexQuery }] }).toArray();
@@ -32,8 +31,8 @@ const insertToDbTest = async (value, collection) => {
     let connection;
 
     try {
-        connection = await MongoClient.connect(url);
-        const dbo = connection.db('local');
+        connection = await MongoClient.connect(mongoUrl);
+        const dbo = connection.db(mongoDb);
 
         await dbo.collection(collection).insertOne(value);
     }
@@ -54,8 +53,8 @@ const getDinerFromDb = async (dinerName) => {
     let connection;
 
     try {
-        connection = await MongoClient.connect(url);
-        const dbo = connection.db('local');
+        connection = await MongoClient.connect(mongoUrl);
+        const dbo = connection.db(mongoDb);
 
         const diner = await dbo.collection('diners')
             .findOne({ 'name': dinerName });
@@ -79,8 +78,8 @@ const getRandomRestaurantFromDb = async () => {
     let connection;
 
     try {
-        connection = await MongoClient.connect(url);
-        const dbo = connection.db('local');
+        connection = await MongoClient.connect(mongoUrl);
+        const dbo = connection.db(mongoDb);
 
         const restaurant = await dbo.collection('restaurants')
             .aggregate([{ $sample: { size: 1 } }]).toArray();
@@ -104,8 +103,8 @@ const insertReviewToDiners = async (diner, review) => {
     let connection;
 
     try {
-        connection = await MongoClient.connect(url);
-        const dbo = connection.db('local');
+        connection = await MongoClient.connect(mongoUrl);
+        const dbo = connection.db(mongoDb);
 
         const isSucceeded = await dbo.collection('diners').findOneAndUpdate(
             { 'name': diner },
@@ -131,8 +130,8 @@ const insertReviewToRestaurants = async (restaurantId, review) => {
     let connection;
 
     try {
-        connection = await MongoClient.connect(url);
-        const dbo = connection.db('local');
+        connection = await MongoClient.connect(mongoUrl);
+        const dbo = connection.db(mongoDb);
 
         const isSucceeded = await dbo.collection('restaurants').findOneAndUpdate(
             { 'id': restaurantId },
@@ -154,6 +153,32 @@ const insertReviewToRestaurants = async (restaurantId, review) => {
     }
 };
 
+const insertFavoriteToDiners = async (dinerName, restaurantId) => {
+    let connection;
+    try {
+        connection = await MongoClient.connect(mongoUrl);
+        const dbo = connection.db(mongoDb);
+
+        const isSucceeded = await dbo.collection('diners').findOneAndUpdate(
+            { 'name': dinerName },
+            { $addToSet: { 'favorites': restaurantId } }
+        );
+
+        return isSucceeded;
+    }
+
+    catch (err) {
+        Promise.reject(err);
+    }
+
+    finally {
+        if (connection) {
+            connection.close()
+            console.log('Mongo Close');
+        }
+    }
+};
+
 
 module.exports = {
     searchRestaurantsInDb,
@@ -161,5 +186,6 @@ module.exports = {
     getDinerFromDb,
     insertToDbTest,
     insertReviewToDiners,
-    insertReviewToRestaurants
+    insertReviewToRestaurants,
+    insertFavoriteToDiners
 };

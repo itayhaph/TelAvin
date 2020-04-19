@@ -1,5 +1,5 @@
 const express = require('express');
-const { insertDiner, getDiner, addReview, addFavorite } = require('../../../logic/diners/dinersLogic');
+const { insertDiner, getDiner, addReview, addFavorite, deleteFavorite } = require('../../../logic/diners/dinersLogic');
 
 const router = express.Router();
 
@@ -22,6 +22,12 @@ router.get('/addFavorite/:dinerName/:restaurantId', async (req, res) => {
 
 router.post('/addReview/:dinerName', async (req, res) => {
     const isSuccess = await addReview(req);
+    res.send(isSuccess);
+});
+
+router.delete('/deleteFavorite/:dinerName/:restaurantId', async (req, res) => {
+    const isSuccess = await deleteFavorite(req);
+
     res.send(isSuccess);
 });
 

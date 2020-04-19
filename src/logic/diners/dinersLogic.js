@@ -2,6 +2,8 @@ const { getDinerFromDb } = require('../../clients/mongo-client/mongoSearch');
 const { insertReviewToDiners,
     insertFavoriteToDiners,
     insertToDbTest } = require('../../clients/mongo-client/mongoInsert');
+const { deleteFavoriteInDiners,
+    deleteFavoriteInRestaurants } = require('../../clients/mongo-client/mongoDelete');
 
 
 const insertDiner = async () => {
@@ -53,9 +55,22 @@ const addFavorite = async (req) => {
     return 'success';
 };
 
+const deleteFavorite = async (req) => {
+    const { dinerName, restaurantId } = req.params;
+    const dinerSuccess = await deleteFavoriteInDiners(dinerName, restaurantId);
+    const restaurantSuccess = await deleteFavoriteInRestaurants(dinerName, restaurantId);
+
+    if (dinerSuccess.value !== null && restaurantSuccess.value !== null) {
+        return 'success';
+    }
+    
+    return 'failed';
+};
+
 module.exports = {
     insertDiner,
     getDiner,
     addReview,
-    addFavorite
+    addFavorite,
+    deleteFavorite
 };

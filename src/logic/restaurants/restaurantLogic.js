@@ -1,4 +1,7 @@
-const { searchRestaurantsInDb, getRandomRestaurantFromDb, insertReviewToRestaurants } = require('../../clients/mongoClient');
+const { searchRestaurantsInDb,
+    getRandomRestaurantFromDb,
+    insertReviewToRestaurants,
+    insertFavoriteToRestaurants } = require('../../clients/mongoClient');
 
 const searchRestaurants = async (req) => {
     const { query } = req.query;
@@ -41,9 +44,21 @@ const addReview = async (req) => {
     return isSuccess;
 };
 
+const addFavorite = async (req) => {
+    const { restaurantId, dinerName } = req.params;
+
+    const isSuccess = await insertFavoriteToRestaurants(restaurantId, dinerName);
+    if (isSuccess.value !== null) {
+        return 'success';
+    }
+
+    return 'failed';
+};
+
 module.exports = {
     searchRestaurants,
     getRestaurants,
     getRandomRestaurant,
-    addReview
+    addReview,
+    addFavorite
 };

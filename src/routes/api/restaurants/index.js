@@ -1,5 +1,9 @@
 const express = require('express');
-const { searchRestaurants, getRestaurants, getRandomRestaurant, addReview } = require('../../../logic/restaurants/restaurantLogic');
+const { searchRestaurants,
+    getRestaurants,
+    getRandomRestaurant,
+    addReview,
+    addFavorite } = require('../../../logic/restaurants/restaurantLogic');
 
 const router = express.Router();
 
@@ -19,6 +23,12 @@ router.get('/random', async (req, res) => {
     const restaurant = await getRandomRestaurant();
 
     res.send(restaurant);
+});
+
+router.get('/addFavorite/:restaurantId/:dinerName', async (req, res) => {
+    const isSuccess = await addFavorite(req);
+
+    res.send(isSuccess);
 });
 
 router.post('/addReview/:restaurantId', async (req, res) => {

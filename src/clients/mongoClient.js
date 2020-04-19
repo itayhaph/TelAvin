@@ -179,6 +179,31 @@ const insertFavoriteToDiners = async (dinerName, restaurantId) => {
     }
 };
 
+const insertFavoriteToRestaurants = async (restaurantId, dinerName) => {
+    let connection;
+    try {
+        connection = await MongoClient.connect(mongoUrl);
+        const dbo = connection.db(mongoDb);
+
+        const isSucceeded = await dbo.collection('restaurants').findOneAndUpdate(
+            { 'id': restaurantId },
+            { $addToSet: { 'favorites': dinerName } }
+        );
+
+        return isSucceeded;
+    }
+
+    catch (err) {
+        Promise.reject(err);
+    }
+
+    finally {
+        if (connection) {
+            connection.close()
+            console.log('Mongo Close');
+        }
+    }
+};
 
 module.exports = {
     searchRestaurantsInDb,
@@ -187,5 +212,6 @@ module.exports = {
     insertToDbTest,
     insertReviewToDiners,
     insertReviewToRestaurants,
-    insertFavoriteToDiners
+    insertFavoriteToDiners,
+    insertFavoriteToRestaurants
 };

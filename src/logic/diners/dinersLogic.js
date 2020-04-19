@@ -1,7 +1,7 @@
-const { insertToDbTest,
-    getDinerFromDb,
-    insertReviewToDiners,
-    insertFavoriteToDiners } = require('../../clients/mongoClient');
+const { getDinerFromDb } = require('../../clients/mongo-client/mongoSearch');
+const { insertReviewToDiners,
+    insertFavoriteToDiners,
+    insertToDbTest } = require('../../clients/mongo-client/mongoInsert');
 
 
 const insertDiner = async () => {
@@ -46,7 +46,7 @@ const addFavorite = async (req) => {
     const { dinerName, restaurantId } = req.params;
 
     const isSuccess = await insertFavoriteToDiners(dinerName, restaurantId);
-    
+
     if (isSuccess.value === null) {
         return 'false';
     }

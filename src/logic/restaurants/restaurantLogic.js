@@ -1,8 +1,8 @@
 const { searchRestaurantsInDb,
-    getRandomRestaurantFromDb,
-    insertReviewToRestaurants,
-    insertFavoriteToRestaurants } = require('../../clients/mongoClient');
-
+    getRandomRestaurantFromDb } = require('../../clients/mongo-client/mongoSearch');
+const { insertFavoriteToRestaurants,
+    insertReviewToRestaurants } = require('../../clients/mongo-client/mongoInsert');
+    
 const searchRestaurants = async (req) => {
     const { query } = req.query;
 

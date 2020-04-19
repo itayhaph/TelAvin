@@ -134,10 +134,12 @@ const insertReviewToRestaurants = async (restaurantId, review) => {
         connection = await MongoClient.connect(url);
         const dbo = connection.db('local');
 
-        await dbo.restaurants.findOneAndUpdate(
-            { '_id': restaurantId },
-            { 'criticizes': review }
+        const isSucceeded = await dbo.collection('restaurants').findOneAndUpdate(
+            { 'id': restaurantId },
+            { $addToSet: { 'criticizes': review } }
         );
+
+        return isSucceeded === null || isSucceeded === undefined;
     }
 
     catch (err) {
@@ -158,5 +160,6 @@ module.exports = {
     getRandomRestaurantFromDb,
     getDinerFromDb,
     insertToDbTest,
-    insertReviewToDiners
+    insertReviewToDiners,
+    insertReviewToRestaurants
 };

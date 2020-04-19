@@ -1,5 +1,5 @@
 const express = require('express');
-const { insertDiner, getDiner } = require('../../../logic/diners/dinersLogic');
+const { insertDiner, getDiner, addReview } = require('../../../logic/diners/dinersLogic');
 
 const router = express.Router();
 
@@ -8,10 +8,15 @@ router.get('/', async (req, res) => {
     res.send('doesnt do anything for now');
 });
 
-router.get('/:dinerName', async (req, res) => {
+router.get('/getDiner/:dinerName', async (req, res) => {
     const diner = await getDiner(req);
 
     res.send(diner);
+});
+
+router.post('/addReview/:dinerName', async (req, res) => {
+    const isSuccess = await addReview(req);
+    res.send(isSuccess);    
 });
 
 module.exports = router;

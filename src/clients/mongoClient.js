@@ -100,9 +100,63 @@ const getRandomRestaurantFromDb = async () => {
     }
 };
 
+const insertReviewToDiners = async (diner, review) => {
+    let connection;
+
+    try {
+        connection = await MongoClient.connect(url);
+        const dbo = connection.db('local');
+
+        const isSucceeded = await dbo.collection('diners').findOneAndUpdate(
+            { 'name': diner },
+            { $addToSet: { 'critics': review } }
+        );
+
+        return isSucceeded !== null && isSucceeded !== undefined;
+    }
+
+    catch (err) {
+        Promise.reject(err);
+    }
+
+    finally {
+        if (connection) {
+            connection.close();
+            console.log();
+        }
+    }
+};
+
+const insertReviewToRestaurants = async (restaurantId, review) => {
+    let connection;
+
+    try {
+        connection = await MongoClient.connect(url);
+        const dbo = connection.db('local');
+
+        await dbo.restaurants.findOneAndUpdate(
+            { '_id': restaurantId },
+            { 'criticizes': review }
+        );
+    }
+
+    catch (err) {
+        Promise.reject(err);
+    }
+
+    finally {
+        if (connection) {
+            connection.close();
+            console.log();
+        }
+    }
+};
+
+
 module.exports = {
     searchRestaurantsInDb,
     getRandomRestaurantFromDb,
     getDinerFromDb,
-    insertToDbTest
+    insertToDbTest,
+    insertReviewToDiners
 };

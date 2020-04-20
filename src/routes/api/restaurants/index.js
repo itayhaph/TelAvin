@@ -1,9 +1,9 @@
 const express = require('express');
 const { searchRestaurants,
     getRestaurants,
-    getRandomRestaurant,
-    addReview,
-    addFavorite } = require('../../../logic/restaurants/restaurantLogic');
+    getRandomRestaurant } = require('../../../logic/restaurants/restaurants-logic/restaurantsSearch');
+const { addReview,
+    addFavorite } = require('../../../logic/restaurants/restaurants-logic/restaurantInsert');
 
 const router = express.Router();
 

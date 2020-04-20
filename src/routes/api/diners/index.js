@@ -1,5 +1,7 @@
 const express = require('express');
-const { insertDiner, getDiner, addReview, addFavorite, deleteFavorite } = require('../../../logic/diners/dinersLogic');
+const { getDiner } = require('../../../logic/diners/diners-logic/dinerSearch');
+const { insertDiner, addFavorite, addReview } = require('../../../logic/diners/diners-logic/dinerInsert');
+const { deleteFavorite } = require('../../../logic/diners/diners-logic/dinerDelete');
 
 const router = express.Router();
 

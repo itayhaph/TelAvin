@@ -1,5 +1,5 @@
-const { MongoClient } = require('mongodb');
-const { mongoUrl, mongoDb } = require('../../configuration');
+import { MongoClient } from 'mongodb';
+import { mongoUrl, mongoDb } from '../../configuration';
 
 const searchRestaurantsInDb = async (query) => {
     let connection;

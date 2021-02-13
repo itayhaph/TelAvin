@@ -1,5 +1,7 @@
-const { insertFavoriteToRestaurants,
-    insertReviewToRestaurants } = require('../../../clients/mongo-client/mongoInsert');
+import {
+    insertFavoriteToRestaurants,
+    insertReviewToRestaurants
+} from '../../../clients/mongo-client/mongoInsert';
 
 const addReview = async (req) => {
     const { restaurantId } = req.params;
@@ -27,7 +29,6 @@ const addFavorite = async (req) => {
 };
 
 module.exports = {
-
     addReview,
     addFavorite
 };

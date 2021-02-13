@@ -1,6 +1,6 @@
 const express = require('express');
 const { addReview,
-    addFavorite } = require('../../../../logic/restaurants/restaurants-logic/restaurantInsert');
+    addFavorite } = require('../../../../services/restaurants/restaurants-logic/restaurantInsert');
 
 const router = express.Router();
 

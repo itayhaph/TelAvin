@@ -1,6 +1,6 @@
 const { insertReviewToDiners,
     insertFavoriteToDiners,
-    insertToDbTest } = require('../../../clients/mongo-client/mongoInsert');
+    insertToDbTest } = require('../../clients/mongoClient/insert');
 
 const insertDiner = async () => {
     const diner = {

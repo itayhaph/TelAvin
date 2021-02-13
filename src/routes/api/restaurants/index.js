@@ -1,8 +1,10 @@
-const express = require('express');
-const restaurantAdd = require('./add');
-const { searchRestaurants,
+import express from 'express';
+import restaurantAdd from './add';
+import {
+    searchRestaurants,
     getRestaurants,
-    getRandomRestaurant } = require('../../../logic/restaurants/restaurants-logic/restaurantsSearch');
+    getRandomRestaurant
+} from '../../../services/restaurants/restaurants-logic/restaurantsSearch';
 
 const router = express.Router();
 

@@ -1,8 +1,9 @@
-const { MongoClient } = require('mongodb');
-const { mongoUrl, mongoDb } = require('../../configuration');
+import { MongoClient } from 'mongodb';
+import { mongoUrl, mongoDb } from '../../configuration';
 
 const deleteFavoriteInDiners = async (dinerName, restaurantId) => {
     let connection;
+
     try {
         connection = await MongoClient.connect(mongoUrl);
         const dbo = connection.db(mongoDb);
@@ -40,11 +41,9 @@ const deleteFavoriteInRestaurants = async (dinerName, restaurantId) => {
 
         return restaurantSucceeded;
     }
-
     catch (err) {
         Promise.reject(err);
     }
-
     finally {
         if (connection) {
             connection.close()

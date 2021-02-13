@@ -1,4 +1,4 @@
-const { getDinerFromDb } = require('../../../clients/mongo-client/mongoSearch');
+const { getDinerFromDb } = require('../../clients/mongoClient/search');
 
 const getDiner = async (req) => {
     const { dinerName } = req.params;

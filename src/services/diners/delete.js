@@ -1,5 +1,5 @@
 const { deleteFavoriteInDiners,
-    deleteFavoriteInRestaurants } = require('../../../clients/mongo-client/mongoDelete');
+    deleteFavoriteInRestaurants } = require('../../clients/mongoClient/delete');
 
 const deleteFavorite = async (req) => {
     const { dinerName, restaurantId } = req.params;
